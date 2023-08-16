@@ -2,14 +2,13 @@ const express = require('express');
 const app = express();
 const cors = require("cors");
 const mongoose = require('mongoose');
-const notesController = require("./controllers/notey");
+const notesController = require("./controllers/note");
 const { url } = require('./utils/config');
 const {
   errorHandler,
   noHandlers,
   requestLogger
 } = require("./utils/middleware");
-
 
 mongoose.set('strictQuery',false);
 mongoose.connect(url);
