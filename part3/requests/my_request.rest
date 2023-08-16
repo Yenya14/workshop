@@ -8,6 +8,14 @@ POST http://localhost:3001/api/notes/ HTTP/1.1
 content-type: application/json
 
 {
-    "content": "sample",
-    "important": false
+    "content": "sa",
+    "important": true
+}
+###
+PUT http://localhost:3001/api/notes/64dabd8706d2a6f28dd50f3f
+content-type: application/json 
+
+{
+    "content": "sam",
+    "important": true
 }
