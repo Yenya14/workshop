@@ -1,16 +1,18 @@
 const express = require("express")
 const app = express();
-//request body ma object ma convert garera pathauxa
-app.use(express.json())
 const mongoose = require('mongoose')
 const cors = require('cors')
-require("dotenv").config();
+const {url, PORT} = require("./utils/config")
+const {errorHandler, noHandlers, requestLogger}= require("./utils/middleware")
+const {info} = require("./utils/logger")
+
+app.use(express.json())
 
 app.use(express.static("build"))
 
 app.use(cors())
 mongoose.set('strictQuery',false)
-mongoose.connect(process.env.MONGODB_URL)
+mongoose.connect(url)
 
 //database ma xaina mongoose le nai cretae garirako
 const noteSchema = new mongoose.Schema({
@@ -32,16 +34,8 @@ noteSchema.set('toJSON', {
 
 const Note = mongoose.model('Note', noteSchema)
 
-const requestLogger = (request, response, next) => {
-  console.log('Method:', request.method)
-  console.log('Path:  ', request.path)
-  console.log('Body:  ', request.body)
-  console.log('---')
-  next();
-} 
 app.use(requestLogger)
 
-let notes=[]
 
 //express le code short garxa
 
@@ -89,7 +83,7 @@ app.put('/api/notes/:id', (request, response, next) => {
 
 app.delete('/api/notes/:id', (request, response, next) => {
   Note.findByIdAndRemove(request.params.id)
-    .then(result => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
@@ -111,25 +105,11 @@ app.post('/api/notes', (request, response, next) => {
 })
 //jun http bata create server gareko hamro http bata object ma .listen bhanne method call garera server suru gareko
 
-app.use((request, response, next) => {
- response.status(404).send("no code available to handle this request")
-} )
-
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
-
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' })
-  } else if (error.name === 'ValidationError') {
-    return response.status(400).json({ error: error.message })
-  }
-
-  next(error)
-}
+app.use(noHandlers)
 
 // this has to be the last loaded middleware.
 app.use(errorHandler)
 
 //3001 ma sunum haii
-app.listen(process.env.PORT)
-console.log(`Server running on port ${process.env.PORT}`)
+app.listen(PORT)
+info(`Server running on port ${PORT}`, "logging from index")

@@ -32,7 +32,7 @@ const note = new Note({
 })
 
 //mongodb ma input garna lai
-note.save().then(result => {
+note.save().then(() => {
   console.log('note saved!')
   mongoose.connection.close()
 })
