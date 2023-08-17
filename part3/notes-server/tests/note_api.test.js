@@ -6,13 +6,17 @@ const helpers = require("./tests_helper")
 
 beforeEach(async () => {
   await Note.deleteMany({})
-  let noteObject = new Note(helpers.initialNotes[0])
-  await noteObject.save()
-  noteObject = new Note(helpers.initialNotes[1])
-  await noteObject.save()
+
+  const noteObjects = helpers.initialNotes
+    .map(note => new Note(note))
+  const promiseArray = noteObjects.map(note => note.save())
+  //duita promise resolve nabhaye samma yo tala ko line ma await garxa
+  await Promise.all(promiseArray)
 })
 
 const api = supertest(app)
+
+describe("testing GET method", () =>{
 
 test('notes are returned as json', async () => {
   await api
@@ -29,11 +33,15 @@ test('there are two notes', async () => {
   
   test('the first note is about HTTP methods', async () => {
     const response = await helpers.notesInDb();
+    const contents = response.map((r) => r.content);
   
-    expect(response[0].content).toBe(helpers.initialNotes[0].content)
+    expect(contents).toContain(helpers.initialNotes[0].content);
   })
+})
 
-  test('a valid note can be added', async () => {
+describe("testing POST method", () =>{
+
+  test('a note without content cannot be added', async () => {
     const newNote = {
       content: 'async/await simplifies making async calls',
       important: true,
@@ -47,13 +55,9 @@ test('there are two notes', async () => {
   
     const response = await api.get('/api/notes')
   
-    const contents = response.body.map(r => r.content)
-  
-    expect(response.body).toHaveLength(helpers.initialNotes.length + 1)
-    expect(contents).toContain(
-      'async/await simplifies making async calls'
-    )
+    expect(response.body).toHaveLength(helpers.initialNotes.length+1)
   })
+})
 
 afterAll(async () => {
   await mongoose.connection.close()

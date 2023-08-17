@@ -53,13 +53,14 @@ app.post("/", async (request, response, next) => {
     content: body.content,
     important: body.important || false,
   });
-
+try{
 const savedNote = await note
     .save()
       response.status(201).json(savedNote);
-    // .catch((e) => {
-    //   next(e);
-    // });
+}
+    catch(e) {
+      next(e);
+    }
 });
 
 module.exports = app;
