@@ -3,6 +3,8 @@ const app = express();
 const cors = require("cors");
 const mongoose = require('mongoose');
 const notesController = require("./controllers/note");
+const usersController = require("./controllers/users");
+
 const { url } = require('./utils/config');
 const {
   errorHandler,
@@ -19,6 +21,8 @@ app.use(express.static("build"));
 app.use(requestLogger);
 
 app.use("/api/notes", notesController);
+app.use("/api/users", usersController);
+
   
 app.use(noHandlers);
 

@@ -8,8 +8,9 @@ POST http://localhost:3001/api/notes/ HTTP/1.1
 content-type: application/json
 
 {
-    "content": "sa",
-    "important": true
+    "content": "sample by liza",
+    "important": false,
+    "userId": "64ddd9b4aade6eceab05c041"
 }
 ###
 PUT http://localhost:3001/api/notes/64dabd8706d2a6f28dd50f3f
@@ -18,4 +19,13 @@ content-type: application/json
 {
     "content": "sam",
     "important": true
+}
+###
+POST http://localhost:3001/api/users/
+content-type: application/json
+
+{
+    "user":"apple",
+    "username":"apple M2",
+    "password":"password123"
 }

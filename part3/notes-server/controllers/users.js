@@ -1,19 +1,19 @@
 const app = require("express").Router();
-const Note = require("../models/note");
-const User = require('../models/user')
+const User = require("../models/user");
+const bcrypt = require("bcrypt");
 
 app.get("/", async (request, response) => {
-  let result = await Note.find({});
+  let result = await User.find({});
     response.json(result);
   });
 
 app.get("/:id", (request, response, next) => {
-  Note.findById(request.params.id)
+  User.findById(request.params.id)
     .then((result) => {
       if (result) {
         response.json(result);
       } else {
-        response.status(404).send(`There are no notes at ${request.params.id}`);
+        response.status(404).send(`There are no users at ${request.params.id}`);
       }
     })
     .catch((e) => {
@@ -24,23 +24,23 @@ app.get("/:id", (request, response, next) => {
 app.put("/:id", (request, response, next) => {
   const body = request.body;
 
-  const note = {
+  const user = {
     content: body.content,
     important: body.important,
   };
 
-  Note.findByIdAndUpdate(request.params.id, note, {
+  User.findByIdAndUpdate(request.params.id, user, {
     new: true,
     runValidators: true,
   })
-    .then((updatedNote) => {
-      response.json(updatedNote);
+    .then((updatedUser) => {
+      response.json(updatedUser);
     })
     .catch((error) => next(error));
 });
 
 app.delete("/:id", (request, response, next) => {
-  Note.findByIdAndRemove(request.params.id)
+  User.findByIdAndRemove(request.params.id)
     .then(() => {
       response.status(204).end();
     })
@@ -49,19 +49,21 @@ app.delete("/:id", (request, response, next) => {
 
 app.post("/", async (request, response, next) => {
   const body = request.body;
-  const user = await User.findById(body.userId)
 
-  const note = new Note({
-    content: body.content,
-    important: body.important || false,
-    user: user.id
+
+  const saltRounds = 10
+  const passwordHash = await bcrypt.hash(body.password, saltRounds)
+
+  const user = new User({
+    username: body.username,
+    passwordHash,
+    name: body.name,
   });
+
 try{
-const savedNote = await note
+const savedUser = await user
     .save()
-    response.status(201).json(savedNote)
-    user.notes = user.notes.concat(savedNote.id)
-    await user.save()
+      response.status(201).json(savedUser);
 }
     catch(e) {
       next(e);

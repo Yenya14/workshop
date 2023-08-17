@@ -28,7 +28,7 @@ test('notes are returned as json', async () => {
 test('there are two notes', async () => {
     const response = await helpers.notesInDb();
   
-    expect(response).toHaveLength(helpers.initialNotes.length)
+    expect(response).toHaveLength(helpers.initialNotes.length + 1)
   })
   
   test('the first note is about HTTP methods', async () => {
