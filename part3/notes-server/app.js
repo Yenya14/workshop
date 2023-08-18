@@ -4,6 +4,8 @@ const cors = require("cors");
 const mongoose = require('mongoose');
 const notesController = require("./controllers/note");
 const usersController = require("./controllers/users");
+const loginController = require("./controllers/login");
+
 
 const { url } = require('./utils/config');
 const {
@@ -22,7 +24,7 @@ app.use(requestLogger);
 
 app.use("/api/notes", notesController);
 app.use("/api/users", usersController);
-
+app.use("/api/login", loginController);
   
 app.use(noHandlers);
 

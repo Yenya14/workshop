@@ -6,9 +6,10 @@ GET http://localhost:3001/api/notes/1
 ###
 POST http://localhost:3001/api/notes/ HTTP/1.1
 content-type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFwcGxlIE0yIiwiaWQiOiI2NGRkZDliNGFhZGU2ZWNlYWIwNWMwNDEiLCJpYXQiOjE2OTIzMTA0ODl9.C-_sFEVVuVXD76CTC_a5TJvQ64VMI9-gO_laax4gQJk
 
 {
-    "content": "sample by liza",
+    "content": "note creation using token",
     "important": false,
     "userId": "64ddd9b4aade6eceab05c041"
 }
@@ -26,6 +27,14 @@ content-type: application/json
 
 {
     "user":"apple",
+    "username":"apple M2",
+    "password":"password123"
+}
+###
+POST http://localhost:3001/api/login/
+content-type: application/json
+
+{
     "username":"apple M2",
     "password":"password123"
 }
