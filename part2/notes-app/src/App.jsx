@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef  } from "react";
 import Note from "./components/Note";
 import reFactor from "./services/notes";
 import loggedIn from "./services/login";
 import Notification from "./components/Notification";
 import "./index.css";
 import Togglable from "./components/Toggable";
+import LoginForm from "./components/LoginForm";
+import NoteForm from "./components/NoteForm";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -14,6 +16,8 @@ const App = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
+
+  const noteFormRef = useRef()
 
   useEffect(() => {
     console.log("hello");
@@ -42,6 +46,9 @@ const App = () => {
       content: newNote,
       important: Math.random() > 0.5,
     };
+
+    noteFormRef.current.toggleVisibility()
+
     let postPromise = reFactor.create(myNote, user.token);
     postPromise
       .then((result) => {
@@ -130,16 +137,27 @@ const App = () => {
 
   const loginForm = () => {
     return (
-      <Togglable buttonLable='login'></Togglable>
+  <Togglable buttonLabel='show login'>
+  <LoginForm
+    username={username}
+    password={password}
+    handleUsernameChange={({ target }) => setUsername(target.value)}
+    handlePasswordChange={({ target }) => setPassword(target.value)}
+    handleSubmit={handleLogin}
+  />
+  </Togglable>
       );
   };
 
   const noteForm = () => {
     return (
-      <form onSubmit={handleSubmit}>
-        <input value={newNote} onChange={handleChange} />
-        <button>Submit</button>
-      </form>
+<Togglable buttonLabel='new note' ref={noteFormRef}>
+  <NoteForm
+    onSubmit={handleSubmit}
+    value={newNote}
+    handleChange={handleChange}
+  />
+</Togglable>
     );
   };
 
