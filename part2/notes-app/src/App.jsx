@@ -4,6 +4,7 @@ import reFactor from "./services/notes";
 import loggedIn from "./services/login";
 import Notification from "./components/Notification";
 import "./index.css";
+import Togglable from "./components/Toggable";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -129,28 +130,8 @@ const App = () => {
 
   const loginForm = () => {
     return (
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password
-          <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>
-    );
+      <Togglable buttonLable='login'></Togglable>
+      );
   };
 
   const noteForm = () => {
