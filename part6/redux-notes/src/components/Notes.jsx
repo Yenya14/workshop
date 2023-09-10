@@ -42,7 +42,7 @@ const toggleImportant = (id) => {
                     key = {note.id} onClick={ () => { toggleImportant(note.id) }}>
                     {note.content} <strong> {note.important ? 'important' : ''} </strong>
                 </li>
-            )};
+            )}
       </ul>
     )
 };
