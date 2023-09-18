@@ -7,33 +7,18 @@
     },
     {
       "content": "state changes are made with actions",
-      "important": false,
+      "important": true,
       "id": 2
     },
     {
-      "content": "note to backend",
+      "content": "one more",
       "important": true,
       "id": 3
     },
     {
-      "content": "to thunk",
+      "content": "two more",
       "important": true,
       "id": 4
-    },
-    {
-      "content": "hello there",
-      "important": true,
-      "id": 5
-    },
-    {
-      "content": "hi",
-      "important": true,
-      "id": 6
-    },
-    {
-      "content": "ddd",
-      "important": true,
-      "id": 7
     }
   ]
 }
