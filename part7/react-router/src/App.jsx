@@ -3,6 +3,7 @@ import Notes from "./Notes";
 import Note from "./Note";
 import { useState } from "react";
 import Login from "./Login";
+import { Navbar, Nav } from "react-bootstrap";
 
 const notes = [
   {
@@ -21,49 +22,58 @@ const notes = [
     id: 3,
   },
 ];
-
 const Home = () => (
   <div>
     <h2>TKTL notes app</h2>
   </div>
 );
-
 const Users = () => (
   <div>
     <h2>Users</h2>
   </div>
 );
-
 const App = () => {
   const [user, setUser] = useState(null);
-
   const match = useMatch("/notes/:id");
   const note = match ? notes.find((note) => note.id == match.params.id) : null;
-
   const padding = {
     padding: 5,
   };
+  const footerStyle = { color: "blue", fontSize: "20px" };
 
   return (
-    <>
-      <div>
-        <Link style={padding} to="/">
-          home
-        </Link>
-        <Link style={padding} to="/notes">
-          notes
-        </Link>
-        <Link style={padding} to="/users">
-          users
-        </Link>
-        {user ? (
-          <em>{user} logged in</em>
-        ) : (
-          <Link style={padding} to="/login">
-            login
-          </Link>
-        )}
-      </div>
+    <div className="container">
+      <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/">
+                home
+              </Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/notes">
+                notes
+              </Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/users">
+                users
+              </Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              {user ? (
+                <em style={padding}>{user} logged in</em>
+              ) : (
+                <Link style={padding} to="/login">
+                  login
+                </Link>
+              )}
+            </Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
 
       <Routes>
         <Route path="/notes/:id" element={<Note note={note} />} />
@@ -75,11 +85,10 @@ const App = () => {
         />
         <Route path="/" element={<Home />} />
       </Routes>
-
       <div>
-        <i>Note app, Department of Computer Science 2023</i>
+        <i style={footerStyle}>Note app, Department of Computer Science 2023</i>
       </div>
-    </>
+    </div>
   );
 };
 
