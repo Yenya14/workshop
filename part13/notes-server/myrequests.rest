@@ -2,6 +2,13 @@ POST http://localhost:3001/api/notes/
 content-type: application/json
 
 {
-    "content": "note creation using no token",
+    "content": "note creation using no token 2",
     "important": false
+}
+###
+PUT http://localhost:3001/api/notes/2
+content-type: application/json
+
+{
+    "important": true
 }
