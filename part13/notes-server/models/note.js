@@ -1,6 +1,5 @@
 const { Model, DataTypes } = require("sequelize");
 const { sequelize } = require("../util/db");
-
 class Note extends Model {}
 Note.init(
   {
@@ -27,7 +26,5 @@ Note.init(
     modelName: "note",
   }
 );
-
-Note.sync();
 
 module.exports = Note;

@@ -1,9 +1,6 @@
 const { Model, DataTypes } = require("sequelize");
-
 const { sequelize } = require("../util/db");
-
 class User extends Model {}
-
 User.init(
   {
     id: {
@@ -28,7 +25,5 @@ User.init(
     modelName: "user",
   }
 );
-
-User.sync();
 
 module.exports = User;
