@@ -1,9 +1,16 @@
 POST http://localhost:3001/api/notes/
 content-type: application/json
+{
+    "content": "note creation using no token 2",
+    "important": false
+}
+###
+POST http://localhost:3001/api/users/
+content-type: application/json
 
 {
-    "content": "note creation using no token 3",
-    "important": false
+    "username": "tejfellow",
+    "name": "TEJ Fellow 1"
 }
 ###
 PUT http://localhost:3001/api/notes/2
@@ -11,4 +18,12 @@ content-type: application/json
 
 {
     "important": true
+}
+###
+POST http://localhost:3001/api/login/
+content-type: application/json
+
+{
+    "username": "tejfellow",
+    "password": "secret"
 }
