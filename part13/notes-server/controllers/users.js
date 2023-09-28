@@ -1,9 +1,14 @@
 const router = require("express").Router();
 
-const { User } = require("../models");
+const { User, Note } = require("../models");
 
 router.get("/", async (req, res) => {
-  const users = await User.findAll();
+  const users = await User.findAll({
+    include: {
+      model: Note,
+      attributes: { exclude: ["userId"] },
+    },
+  });
   res.json(users);
 });
 
@@ -15,7 +20,6 @@ router.post("/", async (req, res) => {
     return res.status(400).json({ error });
   }
 });
-
 router.get("/:id", async (req, res) => {
   const user = await User.findByPk(req.params.id);
   if (user) {
@@ -24,5 +28,4 @@ router.get("/:id", async (req, res) => {
     res.status(404).end();
   }
 });
-
 module.exports = router;
