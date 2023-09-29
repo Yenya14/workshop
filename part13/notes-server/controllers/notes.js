@@ -4,7 +4,6 @@ const { SECRET } = require("../util/config");
 const { Op } = require("sequelize");
 
 const { Note } = require("../models/index");
-const { Note, User } = require("../models/index");
 
 const noteFinder = async (req, res, next) => {
   req.note = await Note.findByPk(req.params.id);
