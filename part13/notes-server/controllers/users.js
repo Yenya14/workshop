@@ -4,7 +4,7 @@ const { User, Note, Team } = require("../models");
 const { tokenExtractor, isAdmin } = require("../util/middleware");
 
 router.get("/", async (req, res) => {
-  const users = await User.findAll({
+  const users = await User.scope("disabled").findAll({
     include: [
       {
         model: Note,
@@ -32,6 +32,7 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+  console.log(req.query.teams);
   const user = await User.findByPk(req.params.id, {
     attributes: { exclude: [""] },
     include: [
@@ -50,22 +51,23 @@ router.get("/:id", async (req, res) => {
           model: User,
           attributes: ["name"],
         },
-      },
-      {
-        model: Team,
-        attributes: ["name", "id"],
-        through: {
-          attributes: [],
-        },
-      },
+      }
     ],
   });
 
-  if (user) {
-    res.json(user);
-  } else {
-    res.status(404).end();
+  if (!user) {
+    return res.status(404).end();
   }
+
+  let teams = undefined;
+  if (req.query.teams) {
+    teams = await user.getTeams({
+      attributes: ["name"],
+      joinTableAttributes: [],
+    });
+  }
+  let noteNumber = await user.number_of_notes();
+  res.json({ ...user.toJSON(), teams, noteNumber });
 });
 
 router.put("/:username", tokenExtractor, isAdmin, async (req, res) => {
@@ -74,7 +76,6 @@ router.put("/:username", tokenExtractor, isAdmin, async (req, res) => {
       username: req.params.username,
     },
   });
-
   if (user) {
     user.disabled = req.body.disabled;
     await user.save();
@@ -83,5 +84,4 @@ router.put("/:username", tokenExtractor, isAdmin, async (req, res) => {
     res.status(404).end();
   }
 });
-
 module.exports = router;
