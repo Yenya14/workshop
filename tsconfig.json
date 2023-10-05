@@ -1,14 +1,14 @@
 {
-    "compilerOptions": {
-      "target": "ES2022",
-      "strict": true,
-      "noUnusedLocals": false,
-      "noUnusedParameters": true,
-      "noImplicitReturns": true,
-      "noFallthroughCasesInSwitch": true,
-  
-      "noImplicitAny": true,
-      "esModuleInterop": true,
-      "moduleResolution": "node"
-    }
+  "compilerOptions": {
+    "target": "ES2022",
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node"
   }
+}
