@@ -11,14 +11,8 @@
       "id": 2
     },
     {
-      "content": "one more",
-      "important": true,
-      "id": 3
-    },
-    {
-      "content": "two more",
-      "important": true,
-      "id": 4
+      "content": "hi",
+      "id": 5
     }
   ]
 }
