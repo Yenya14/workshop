@@ -96,9 +96,8 @@ export enum Weather {
   
   export type PatientWithoutId = Omit<Patient, "id">;
   
-  // Define special omit for unions
   type UnionOmit<T, K extends string | number | symbol> = T extends unknown
     ? Omit<T, K>
     : never;
-  // Define Entry without the 'id' property
-  export type EntryWithoutId = UnionOmit<Entry, "id">;
+
+    export type EntryWithoutId = UnionOmit<Entry, "id">;
